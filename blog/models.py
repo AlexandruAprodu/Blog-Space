@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
-# Create your models here.
+
 
 
 class Post(models.Model):
@@ -19,7 +19,7 @@ class Post(models.Model):
         return reverse('post-detail', kwargs={'pk': self.pk})
 
 
-class FirstPageNews(models.Model):
+class FirstPageQuotes(models.Model):
     title = models.CharField(max_length=100)
     quote = models.TextField()
     image = models.ImageField(upload_to='first_page_pics', default='default-image.png')

@@ -9,6 +9,7 @@
 	<link rel="shortcut icon" href="#">
 	<link rel="stylesheet" type="text/css" href="{% static 'blog/css/screen.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'blog/css/paginator.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/css/register_login_etc.css' %}"/>
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:400,300italic,300,400italic,700,700italic|Playfair+Display:400,700,400italic,700italic"/>
     {% if title %}
         <title>{{ title }}</title>
@@ -20,7 +21,7 @@
 <body>
      <div class="site-wrapper">
         <nav class="main-nav overlay clearfix">
-            <a class="blog-logo" href="{% url 'index' %}"><img src="{% static 'blog/img/logo.png' %}" alt=""/></a>
+            <a class="blog-logo" href="{% url 'index' %}"><img src="{% static 'blog/img/logo.png' %}"/></a>
             <ul id="menu">
                 <li class="nav-home nav-current" role="presentation"><a href="{% url 'index' %}">Home</a></li>
                 <li class="nav-about-us" role="presentation"><a href="{% url 'about' %}">About Us</a></li>
@@ -35,7 +36,7 @@
                 <span class="socialheader">
                     <a href="#"><span class='symbol'>circletwitterbird</span></a>
                     <a href="#"><span class='symbol'>circlefacebook</span></a>
-                    <a href="www.linkedin.com/in/alexandruaprodu"><span class='symbol'>circlelinkedin</span></a>
+                    <a href="#"><span class='symbol'>circlelinkedin</span></a>
                     <a href="mailto:alexandru.aprodu1@gmail.com"><span class='symbol'>circleemail</span></a>
                 </span>
             </ul>

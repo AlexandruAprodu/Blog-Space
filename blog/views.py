@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post, FirstPageNews
+from .models import Post, FirstPageQuotes
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
@@ -8,7 +8,7 @@ import random
 def home(request):
     context = {
         'posts': Post.objects.all(),
-        'quote': FirstPageNews.objects.last(),
+        'quote': FirstPageQuotes.objects.last(),
     }
     return render(request, 'blog/index.html')
 
@@ -23,7 +23,9 @@ class PostListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(PostListView, self).get_context_data(**kwargs)
         # context['posts'] = Post.objects.all()[::-1]
-        context['quote'] = FirstPageNews.objects.last()
+        context_all_quotes = FirstPageQuotes.objects.all()
+        context_random_quotes = random.choice(context_all_quotes)
+        context['quote'] = context_random_quotes
         context['title'] = 'Homepage'
         return context
 
@@ -61,7 +63,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
-
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):

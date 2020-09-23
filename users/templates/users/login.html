@@ -15,9 +15,10 @@
                     <a href="{% url 'password_reset' %}">Forgot Password?</a>
                 </small>
             </div>
+              <div class="border-top pt-3">
+                <small class="text-muted">Need an account? <a class="ml-2" href="{% url 'register' %}">Sign Up Now</a></small>
+             </div>
         </form>
-        <div class="border-top pt-3">
-            <small class="text-muted">Need an account? <a class="ml-2" href="{% url 'register' %}">Sign Up Now</a></small>
-        </div>
+
     </div>
 {% endblock %}
