@@ -1,8 +1,10 @@
+from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegistrationForm
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 def register(request):
@@ -15,7 +17,7 @@ def register(request):
             return redirect('login')
     else:
         form = UserRegistrationForm()
-    return render(request, 'users/register.html', {'form': form})
+    return render(request, 'users/register.html', {'form': form, 'title': 'Register'})
 
 
 @login_required
@@ -34,7 +36,20 @@ def profile(request):
 
     context = {
         'u_form': u_form,
-        'p_form': p_form
+        'p_form': p_form,
+        'title': 'Profile',
     }
 
     return render(request, 'users/profile.html', context)
+
+
+class LoginFormView(SuccessMessageMixin, LoginView):
+    template_name = 'users/login.html'
+    success_url = 'blog/index.html'
+    success_message = "You were successfully logged in"
+
+    def get_context_data(self, **kwargs):
+        context = super(LoginFormView, self).get_context_data(**kwargs)
+        context['title'] = 'Log In'
+        return context
+

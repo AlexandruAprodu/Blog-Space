@@ -17,3 +17,12 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
+
+
+class FirstPageNews(models.Model):
+    title = models.CharField(max_length=100)
+    quote = models.TextField()
+    image = models.ImageField(upload_to='first_page_pics', default='default-image.png')
+
+    def __str__(self):
+        return self.title

@@ -1,14 +1,16 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post
+from .models import Post, FirstPageNews
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+import random
 
 def home(request):
     context = {
-        'posts': Post.objects.all()
+        'posts': Post.objects.all(),
+        'quote': FirstPageNews.objects.last(),
     }
-    return render(request, 'blog/home.html', context)
+    return render(request, 'blog/index.html')
 
 
 class PostListView(ListView):
@@ -16,14 +18,21 @@ class PostListView(ListView):
     template_name = 'blog/index.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
-    paginate_by = 5
+    paginate_by = 6
+
+    def get_context_data(self, **kwargs):
+        context = super(PostListView, self).get_context_data(**kwargs)
+        # context['posts'] = Post.objects.all()[::-1]
+        context['quote'] = FirstPageNews.objects.last()
+        context['title'] = 'Homepage'
+        return context
 
 
 class UserPostListView(ListView):
     model = Post
     template_name = 'blog/user_posts.html'
     context_object_name = 'posts'
-    paginate_by = 5
+    paginate_by = 6
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
@@ -33,6 +42,17 @@ class UserPostListView(ListView):
 class PostDetailView(DetailView):
     model = Post
 
+    def get_context_data(self, **kwargs):
+        context = super(PostDetailView, self).get_context_data(**kwargs)
+        context1 = Post.objects.all()
+        context2 = random.choice(context1)
+        context3 = random.choice(context1)
+        context['random_post'] = context2
+        context['random_post2'] = context3
+        post = get_object_or_404(Post, pk=self.kwargs['pk'], )
+        context['title'] = post.title
+        return context
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
@@ -41,6 +61,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -69,4 +90,4 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 def about(request):
-    return render(request, 'blog/about.html', {'title': 'About'})
+    return render(request, 'blog/about.html', {'title': 'About Us'})
